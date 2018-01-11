@@ -65,7 +65,7 @@ a copy of the selector-map where the  values are extracted from the document usi
 ;;     [{:title "Article 1"
 ;;       :url   "/article-1"
 ;;       :body  "Some text"}
-;;      {:title "Article "
+;;      {:title "Article 2"
 ;;       :url   "/article-2"
 ;;       :body  "Hello from Mars"}]}
 ```
