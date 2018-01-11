@@ -17,6 +17,8 @@ a copy of the selector-map where the  values are extracted from the document usi
 ### Quick example
 
 ```clojure
+(def doc (parse-html "..."))
+
 (def selector-map 
   {:header "h1"
    :articles
