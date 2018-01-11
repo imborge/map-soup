@@ -14,6 +14,28 @@ and ```parse-doc```.
 ```map-doc``` takes a JSoup document and a map of selectors, and returns 
 a copy of the selector-map where the  values are extracted from the document using the selectors.
 
+### Quick example
+
+```clojure
+(def selector-map 
+  {:header "h1"
+   :articles
+   [{:_selector ".article"
+     :title "h2"
+     :url   "a/href"
+     :body  "p"}]})
+
+(map-doc selector-map doc)
+;; => {:header "Example"
+;;     :articles
+;;     [{:title "Article 1"
+;;       :url   "/article-1"
+;;       :body  "Some text"}
+;;      {:title "Article 2"
+;;       :url   "/article-2"
+;;       :body  "Hello from Mars"}]}
+```
+
 ### Full example
 
 ```clojure
