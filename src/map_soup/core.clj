@@ -45,5 +45,5 @@
                           (if attr
                             [key (.attr val attr)]
                             [key (.text val)])
-                          [key (str "!! ERROR: No match for \"" selector \")])))))
+                          [key nil])))))
                 selector-map)))

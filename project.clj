@@ -1,4 +1,4 @@
-(defproject borge/map-soup "0.1.0-SNAPSHOT"
+(defproject borge/map-soup "0.1.0"
   :description "A Jsoup utility library that lets you extract content by passing a map of selectors to `map-doc`"
   :url "http://github.com/imborge/map-soup"
   :license {:name "MIT License"
