@@ -6,7 +6,7 @@ from HTML.
 
 ## Installation
 
-map-soup is available as a Maven artifact from Clojars:
+map-soup is available as a Maven artifact from [Clojars](https://clojars.org/borge/map-soup):
 
 In your project.clj dependencies for leiningen:
 
