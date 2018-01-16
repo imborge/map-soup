@@ -4,6 +4,14 @@
 A JSoup utility library for Clojure that makes it easier to extract content
 from HTML.
 
+## Installation
+
+map-soup is available as a Maven artifact from Clojars:
+
+In your project.clj dependencies for leiningen:
+
+```[borge/map-soup "0.1.0-SNAPSHOT"]```
+
 ## Usage
 
 jsoup-utils have 2 functions you are going to use: ```parse-html```
