@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file. This change
 
 ## 0.2.0 - XXXX-XX-XX
 ### Added
-- html->clj function is added, renamed from html->clj
+- html->clj function is added, renamed and improved map-doc
 ### Removed
 - map-doc has been renamed to html->clj
 - select-first is now removed from the public API
