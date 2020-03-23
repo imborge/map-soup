@@ -27,15 +27,16 @@
   </div><!-- .article -->
   <div
   </div><!-- #articles -->
+
+  <div id=\"data-test\" data-id=\"3\">3</div>
+  <div id=\"data-test\" data-id=\"2\">2</div>
   </body>
   </html>")
 
-(def doc (Jsoup/parse html))
-
-(deftest map-doc-test
+(deftest html->clj-test
   (testing "A simple flat selector-map"
     (let [selector-map {:header "h1"}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map html)]
       (is (= res
              {:header "Example"}))))
 
@@ -43,15 +44,27 @@
     (let [selector-map {:articles [{:_selector "div.article"
                                     :header    "h2"
                                     :content   "p"}]}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map html)]
       (is (= res
              {:articles [{:header  "Article 1"
                           :content "Some text"}
                          {:header  "Article 2"
                           :content "Hello from Mars"}]}))))
 
-  (testing "Getting attributes"
+  (testing "Extracting attributes"
     (let [selector-map {:url "a/href"}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map html)]
       (is (= res
-             {:url "/example"})))))
+             {:url "/example"}))))
+
+  (testing "Extracting data-attributes"
+    (let [selector-map {:id "div#data-test/data-id"}
+          res          (html->clj selector-map html)]
+      (is (= res
+             {:id "3"}))))
+
+  (testing "Finds node using attribute"
+    (let [selector-map {:id "div[data-id=3]"}
+          res          (html->clj selector-map html)]
+      (is (= res
+             {:id "3"})))))

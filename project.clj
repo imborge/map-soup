@@ -1,5 +1,5 @@
-(defproject borge/map-soup "0.1.0"
-  :description "A Jsoup utility library that lets you extract content by passing a map of selectors to `map-doc`"
+(defproject borge/map-soup "0.2.0"
+  :description "A declerative HTML parser built upon jsoup"
   :url "http://github.com/imborge/map-soup"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
