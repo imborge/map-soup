@@ -18,9 +18,11 @@
          :attr attr})
       {:selector selector})))
 
+;; todo swap selector and doc positions in arg
 (defn- select [doc selector]
   (.select doc selector))
 
+;; todo swap selector and doc positions in arg
 (defn- select-first [doc selector]
   (-> doc
       (select selector)
@@ -32,17 +34,19 @@
 (defn- html->clj-2
   "Takes a Jsoup document, a map of selectors and returns a map of the selections."
   [selector-map doc]
-  (into {} (map (fn [[key value]]
-                  (cond
-                    (vector? value)
-                    (parse-list doc selector-map key value)
-                    
-                    (map? value)
-                    (parse-obj doc selector-map key value)
-
-                    :else
-                    (parse-val doc selector-map key value)))
-                selector-map)))
+  (let [selector->clj (fn [[key value]]
+                        (cond
+                          (vector? value)
+                          (parse-list doc selector-map key value)
+                          
+                          (map? value)
+                          (parse-obj doc selector-map key value)
+                          
+                          :else
+                          (parse-val doc selector-map key value)))]
+    (if (:__selector selector-map)
+      (html->clj-2 (dissoc selector-map :__selector) (select-first doc (:__selector selector-map)))
+      (into {} (map selector->clj selector-map)))))
 
 (defn html->clj [selector-map html]
   (html->clj-2 selector-map (html->jsoup html)))

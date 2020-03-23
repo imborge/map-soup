@@ -17,11 +17,11 @@
   </div><!-- #header -->
 
   <div id='articles'>
-  <div class='article'>
+  <div class='article' id='article-1'>
   <h2>Article 1</h2>
   <p>Some text</p>
   </div><!-- .article -->
-  <div class='article'>
+  <div class='article' id='article-2'>
   <h2>Article 2</h2>
   <p>Hello from Mars</p>
   </div><!-- .article -->
@@ -67,4 +67,11 @@
     (let [selector-map {:id "div[data-id=3]"}
           res          (html->clj selector-map html)]
       (is (= res
-             {:id "3"})))))
+             {:id "3"}))))
+
+  (testing ":__selector is respected when used in base selector-map"
+    (let [selector-map {:__selector "#article-2"
+                        :header "h2"}
+          res          (html->clj selector-map html)]
+      (is (boolean (:header res)))
+      (is (= (:header res) "Article 2")))))
