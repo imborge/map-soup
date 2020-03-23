@@ -48,10 +48,10 @@
   (html->clj-2 selector-map (html->jsoup html)))
 
 (defn- parse-list [doc selector-map key value]
-  (let [[selector-map]                 value
-        selector     (:_selector selector-map)
-        selector-map (dissoc selector-map :_selector)
-        new-docs     (select doc selector)]
+  (let [[selector-map] value
+        selector       (:_selector selector-map)
+        selector-map   (dissoc selector-map :_selector)
+        new-docs       (select doc selector)]
     [key (into [] (map #(html->clj-2 selector-map %) new-docs))]))
 
 (defn- parse-obj [doc selector-map key value]
