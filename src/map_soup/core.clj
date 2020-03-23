@@ -4,6 +4,10 @@
            [org.jsoup.nodes Element])
   (:require [clojure.string :as str]))
 
+(declare parse-list)
+(declare parse-obj)
+(declare parse-val)
+
 (defn- extract-attr [selector]
   (let [tokens (str/split selector #" ")
         last-token (last tokens)]
@@ -31,26 +35,35 @@
   (into {} (map (fn [[key value]]
                   (cond
                     (vector? value)
-                    (let [[selector-map] value
-                          selector       (:_selector selector-map)
-                          selector-map   (dissoc selector-map :_selector)
-                          new-docs       (select doc selector)]
-                      [key (into [] (map #(html->clj-2 selector-map %) new-docs))])
+                    (parse-list doc selector-map key value)
                     
                     (map? value)
-                    ;; the (conj {} %) is needed to turn the map entry back to a map
-                    [key (map #(html->clj-2 (conj {} %) doc) value)]
+                    (parse-obj doc selector-map key value)
 
                     :else
-                    (let [{:keys [selector attr]} (extract-attr value)
-                          tokens     (str/split value #" ")
-                          last-token (last tokens)]
-                      (if-let [val (select-first doc selector)]
-                        (if attr
-                          [key (.attr val attr)]
-                          [key (.text val)])
-                        [key nil]))))
+                    (parse-val doc selector-map key value)))
                 selector-map)))
 
 (defn html->clj [selector-map html]
   (html->clj-2 selector-map (html->jsoup html)))
+
+(defn- parse-list [doc selector-map key value]
+  (let [[selector-map]                 value
+        selector     (:_selector selector-map)
+        selector-map (dissoc selector-map :_selector)
+        new-docs     (select doc selector)]
+    [key (into [] (map #(html->clj-2 selector-map %) new-docs))]))
+
+(defn- parse-obj [doc selector-map key value]
+  ;; the (conj {} %) is needed to turn the map entry back to a map
+  [key (map #(html->clj-2 (dissoc (conj {} %)) doc) value)])
+
+(defn- parse-val [doc selector-map key value]
+  (let [{:keys [selector attr]} (extract-attr value)
+        tokens                  (str/split value #" ")
+        last-token              (last tokens)]
+    (if-let [val (select-first doc selector)]
+      (if attr
+        [key (.attr val attr)]
+        [key (.text val)])
+      [key nil])))
