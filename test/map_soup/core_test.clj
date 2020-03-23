@@ -33,7 +33,7 @@
   </body>
   </html>")
 
-(deftest map-doc-test
+(deftest html->clj-test
   (testing "A simple flat selector-map"
     (let [selector-map {:header "h1"}
           res          (html->clj selector-map html)]
