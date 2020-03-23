@@ -30,12 +30,12 @@
   </body>
   </html>")
 
-(def doc (Jsoup/parse html))
+(def doc #_(Jsoup/parse html) html)
 
 (deftest map-doc-test
   (testing "A simple flat selector-map"
     (let [selector-map {:header "h1"}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map doc)]
       (is (= res
              {:header "Example"}))))
 
@@ -43,7 +43,7 @@
     (let [selector-map {:articles [{:_selector "div.article"
                                     :header    "h2"
                                     :content   "p"}]}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map doc)]
       (is (= res
              {:articles [{:header  "Article 1"
                           :content "Some text"}
@@ -52,6 +52,6 @@
 
   (testing "Getting attributes"
     (let [selector-map {:url "a/href"}
-          res          (map-doc selector-map doc)]
+          res          (html->clj selector-map doc)]
       (is (= res
              {:url "/example"})))))
